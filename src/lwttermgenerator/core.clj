@@ -4,6 +4,8 @@
 (load-file "src/lwttermgenerator/hjaelpemetoder.clj")
 (load-file "src/lwttermgenerator/cedictprep.clj")
 (load-file "src/lwttermgenerator/tzaiprep.clj")
+(load-file "src/lwttermgenerator/moduleDistributeWordsAmongSentences.clj")
+;moduleDistributeWordsAmongSentences.clj
 
 (defn -main
   "I don't do a whole lot ... yet."
