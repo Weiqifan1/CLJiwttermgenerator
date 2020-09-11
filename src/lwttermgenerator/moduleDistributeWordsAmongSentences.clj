@@ -18,26 +18,27 @@
 ;2020-08-02 kl. 17.36 lav en funktion der tager et tegn og laver det om til et CJKBlock tegn>
 (defn charToCharInCJKBlock [ordinaryChar] (numberToCharInCJKBlock (get tzai_hashmap (str "" ordinaryChar))))
 
-(println (charToCharInCJKBlock "不"))
+;(println (charToCharInCJKBlock "不"))
 ;lav en funktion der tager en saetning og returnere en liste af tegn i CLKBlock
 (defn sentenceToReverseSortedCharsInCLKBlock [ordinarySentence] (reverse (sort (map #(charToCharInCJKBlock %) ordinarySentence))))
 
-(println (sentenceToReverseSortedCharsInCLKBlock "有禿是"))
-(println (map charInCJKBlockToNumber (sentenceToReverseSortedCharsInCLKBlock "有禿是")))
+;(println (sentenceToReverseSortedCharsInCLKBlock "有禿是"))
+;(println (map charInCJKBlockToNumber (sentenceToReverseSortedCharsInCLKBlock "有禿是")))
 
-;lav en funktion der tager en liste af saetninger og reverse sortere dem efter tegnenes frekvens
+;lav en funktion der tager en liste af saetninger og sortere dem efter tegnenes frekvens
+; (saetninger med de sjaeldneste tegn sidst)
 (defn sortSentencesByReverseCharSequence [vectorOfSentences]
   (map first
-       (reverse
+       ;(reverse
          (sort-by second
                   (map #(vector (nth % 0) (vec (sentenceToReverseSortedCharsInCLKBlock (nth % 1))))
-                       (map (fn [eachSentence] (vector eachSentence eachSentence)) vectorOfSentences))))))
+                       (map (fn [eachSentence] (vector eachSentence eachSentence)) vectorOfSentences)))));)
 
-(def chrTestVector (vector "一郝的" "不淪大" "我剝在" "有禿是"))
+(def chrTestVector (vector "在郝是" "不淪大" "我剝一" "有禿的"))
 ;(println chrTestVector)
 ;(println (map (fn [eachString] (map charInCJKBlockToNumber (sentenceToReverseSortedCharsInCLKBlock eachString))) chrTestVector))
 ;(println (sortSentencesByReverseCharSequence chrTestVector))
-
+;(println (map (fn [eachString] (map charInCJKBlockToNumber (sentenceToReverseSortedCharsInCLKBlock eachString))) (sortSentencesByReverseCharSequence chrTestVector)))
 
 
 

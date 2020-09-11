@@ -7,12 +7,17 @@
 (load-file "src/lwttermgenerator/moduleDistributeWordsAmongSentences.clj")
 ;moduleDistributeWordsAmongSentences.clj
 
+;; 2020-09-11 jeg maa proeve at udskille min kode i biblioteker saa det bliver nemmere at overskue.
+;; jeg maa ogsaa proeve at lave en form for dokumentation.
+
 (defn -main
   "I don't do a whole lot ... yet."
   [& args]
   (println "Hello, World!"))
 
 (println "hello chr")
+
+
 ;;(println (take 3 cedict_raw))
 ;;(println (count cedict_raw))
 
@@ -54,7 +59,10 @@
                              ))
                          setOfChineseWords))
 
+
+;;***********
 ;(println (count dictlookupOfWords))
+
 
 ;(println (type "gfd"))
 ;(println (filter
