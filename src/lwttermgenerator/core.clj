@@ -5,6 +5,8 @@
 (load-file "src/lwttermgenerator/cedictprep.clj")
 (load-file "src/lwttermgenerator/tzaiprep.clj")
 (load-file "src/lwttermgenerator/moduleDistributeWordsAmongSentences.clj")
+
+(load-file "src/Helpermethods/hjaelpemetoder.clj")
 ;moduleDistributeWordsAmongSentences.clj
 
 ;; 2020-09-11 jeg maa proeve at udskille min kode i biblioteker saa det bliver nemmere at overskue.
@@ -14,6 +16,8 @@
   "I don't do a whole lot ... yet."
   [& args]
   (println "Hello, World!"))
+
+(println (helper_parse-int "34"))
 
 (println "hello chr")
 

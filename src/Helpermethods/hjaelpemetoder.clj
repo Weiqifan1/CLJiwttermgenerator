@@ -4,19 +4,19 @@
   [x]
   (println x "Hello, World!"))
 
-(defn parse-int
+(defn helper_parse-long
   "Reads a number from a string. Returns nil if not a number."
   [s]
   (if (re-find #"^\d+$" s);(if (re-find #"^-?\d+\.?\d*$" s)
     (read-string s)))
+;(println (helper_parse-long "34"))
 
-(defn filter-by-index [coll idxs]
-  (keep-indexed #(when ((set idxs) %1) %2)
-                coll))
-(defn parse-long [s]
-  (Long. (re-find #"\d+" s)))
+(defn helper_filter-by-index [coll idxs]
+  (keep-indexed #(when ((set idxs) %1) %2) coll))
+;(def testhelper_filter-by-index (list "A", "B", "C", "D", "E", "F", "G", "H"))
+;(println (helper_filter-by-index testhelper_filter-by-index (list 0 3 4)))
 
-(defn splitToCodepointChar
+(defn helper_splitToCodepointChar
   ;"A腦𡳞𨨏B乃匯C𨭎" [A 腦 𡳞 𨨏 B 乃 匯 C 𨭎]
   [kinstring]
   ((comp
@@ -27,27 +27,18 @@
                   (and (>= (int %) 55296) (<= (int %) 56319))
                   % (str % " ")) x))
      ) kinstring))
+;(println (helper_splitToCodepointChar "A腦𡳞𨨏B乃匯C𨭎"))
 
-(defn splitToSurogatePair
+(defn helper_splitToSurogatePair
   ;"A腦𡳞𨨏B乃匯C𨭎" ((65) (33126) (55367 56542) (55394 56847) (66) (20035) (21295) (67) (55394 57166))
   [kinstring]
   ((comp
      (fn [x] (map #(map int %) x))
-     #(splitToCodepointChar %)
+     #(helper_splitToCodepointChar %)
      ) kinstring))
+;(println (helper_splitToSurogatePair "A腦𡳞𨨏B乃匯C𨭎"))
 
-(comment (defn splitToCodepointVec
-           ;"A腦𡳞𨨏B乃匯C𨭎" (65 33126 138462 166415 66 20035 21295 67 166734)
-           [nested]
-           (map
-             #(if
-                (and (>= (first (map int %)) 55296) (<= (first (map int %)) 56319))
-                (. java.lang.Character toCodePoint (first %) (second %))
-                (first (map int %)))
-             (splitToCodepointChar
-               nested))))
-
-(defn splitToCodepointVec
+(defn helper_splitToCodepointVec
   ;"A腦𡳞𨨏B乃匯C𨭎" (65 33126 138462 166415 66 20035 21295 67 166734)
   [nested]
   (cond
@@ -59,38 +50,46 @@
        (and (>= (int (first (str % " "))) 55296) (<= (int (first (str % " "))) 56319))
        (. java.lang.Character toCodePoint (first %) (second %))
        (int (first (str % " "))))
-    (splitToCodepointChar
+    (helper_splitToCodepointChar
       nested))))
+;(println (helper_splitToCodepointVec "A腦𡳞𨨏B乃匯C𨭎"))
+
 
 ;funktion til at omdanne et tal til et tegn: den tager et tal, og omdanner det til
 ;et tegn fra CJK blokken (1 -> 一 (19968) )
-(defn numberToCharInCJKBlock [unicodeOrdinalCedimal] (char (+ unicodeOrdinalCedimal 19967)))
-;(println (numberToCharInCJKBlock 1))  ;(. java.lang.Integer toString 45) 0)) ;19968  ;toChars
+(defn helper_numberToCharInCJKBlock [unicodeOrdinalCedimal] (char (+ unicodeOrdinalCedimal 19967)))
+;(println (helper_numberToCharInCJKBlock 1))
+
 ;her er en funktion der goer det omvedte af ovenstaaende. Den tager et tegn fra
-(defn charInCJKBlockToNumber [charInCLKBlock] (- (int charInCLKBlock) 19967))
-;(println (charInCJKBlockToNumber (first "一")))
+;CJK blokken (unicode 19968 og frem) og laver den om til et tal
+(defn helper_charInCJKBlockToNumber [charInCLKBlock] (- (int charInCLKBlock) 19967))
+;(println (helper_charInCJKBlockToNumber (first "一")))
 
 
-
-
-(defn stringHasChinese [inputstring]
+(defn helper_stringHasChinese [inputstring]
     (cond
       (= inputstring nil) false
       (= inputstring "") false
-      :else  (< 0 (count (filter #(and (> % 11000) (not (= % 12288))) (splitToCodepointVec (str "" inputstring)))));hvis over 11.000 = ikke kinesisk
+      :else  (< 0 (count (filter #(and (> % 11000) (not (= % 12288))) (helper_splitToCodepointVec (str "" inputstring)))));hvis over 11.000 = ikke kinesisk
   ))
+;(println (helper_stringHasChinese ""))                   ;false
+;(println (helper_stringHasChinese "gfd234"))             ;false
+;(println (helper_stringHasChinese "fds3\uD862\uDE0F25")) ;true
+;(println (helper_stringHasChinese "gfd2腦34"))           ;true
 
-(defn stringHasOnlyNumPunktAndNotEmpty [inputstring]
+(defn helper_stringHasOnlyNumPunktAndNotEmpty [inputstring]
   (and (< 0 (count (str "" inputstring)))
        (= 0
           (count (filter
-                   #(< 57 %) ;return true hvis alle tegn er
-                   (splitToCodepointVec (str "" inputstring))))
+                   #(< 64 %) ;return true hvis alle tegn er
+                   (helper_splitToCodepointVec (str "" inputstring))))
           )
        )
   )
+;(println (helper_stringHasOnlyNumPunktAndNotEmpty "023.,+@")) ;true
+;(println (helper_stringHasOnlyNumPunktAndNotEmpty "023.,+A")) ;false
 
-(defn compareLength
+(defn helper_compareLength
   [a b] (
           if (= (count a) (count b))
           (compare a b)
@@ -105,6 +104,9 @@
               )
             )
           ))
+;(println (helper_compareLength "abc" "abc"))  ;0
+;(println (helper_compareLength "abcd" "abc")) ;-1
+;(println (helper_compareLength "abc" "abcd")) ;1
 
 ;***************************** sorting functions ***************************
 (defn compare-tzai-secondary [a b]
@@ -134,7 +136,7 @@
     )
   )
 
-(defn compare-tzai [a b]
+(defn helper_compare-tzai [a b]
   (if (and (= (get a :tzai) nil) (not= (get b :tzai) nil))
     1
     (if (and (= (get b :tzai) nil) (not= (get a :tzai) nil))
@@ -147,7 +149,7 @@
     )
   )
 
-(defn compare-junda [a b]
+(defn helper_compare-junda [a b]
   ;(sort-by (juxt :junda :tzai :cedictsimp :cedicttrad :ordinal) x)
   (if (and (= (get a :junda) nil) (not= (get b :junda) nil))
     1
@@ -161,13 +163,15 @@
     )
   )
 
-(defn rundOpTilNul
+(defn helper_rundOpTilNul
   [Heltal]
   (if
     (> 0 Heltal)
     0
     Heltal)
   )
-
+;(println (helper_rundOpTilNul 1))
+;(println (helper_rundOpTilNul 0))
+;(println (helper_rundOpTilNul -1))
 
 ;slut
