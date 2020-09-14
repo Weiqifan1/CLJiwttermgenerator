@@ -1,4 +1,5 @@
-(load-file "src/lwttermgenerator/hjaelpemetoder.clj")
+(load-file "src/Helpermethods/hjaelpemetoder.clj")
+;(load-file "src/lwttermgenerator/hjaelpemetoder.clj")
 
 (def filstier_stat (vector "Junda2005.txt" "Tzai2006.txt" "src/lwttermgenerator/cedictimproved.txt"))
 
@@ -10,27 +11,28 @@
 ;; lav en funktion der laver cedict_raw om til en traditionel hashmap
 ;; (det vil ikke nytte med en simplificeret hashmap. jeg vil f.eks. ikke kunne vide om 发 er 發 eller 髮)
 ;; der burde derimod ikke vaere flere simplificerede tegn der referere til 1 traditionelt.
+;; form: vector med 4 entries:
+;; <traditionel> <simplificeret> [Fan4 Wei3 qi2] /Christine Fan (1976-), American-born Taiwanese singer and actress/
 (def cedictTradHash
   ((comp
      #(apply hash-map %)
      #(apply concat %)
      (fn [cedictData] (map #(vector (get % 0) %) cedictData))
     )cedict_raw))
+;(println (count cedictTradHash))
+;(println (take 6 cedictTradHash))
+;(println (cedictTradHash "范瑋琪"))
+;(def enEntry (cedictTradHash "范瑋琪"))
+;(println (type enEntry))
+;(println (vector? enEntry))
+;(println (count enEntry))
+;(println (str "" (get enEntry 0)))
+;(println (str "" (get enEntry 1)))
+;(println (get enEntry 2))
+;(println (get enEntry 3))
+;(println (count (get enEntry 0)))
 
-;;(println (count cedictTradHash))
-;;(println (take 6 cedictTradHash))
-;;(println (cedictTradHash "范瑋琪"))
 
-;;lav en funktion der tager en kinesisk linje samt dens laengde
-;;og returnere en vector af linjen med flere og flere bogstaver fjernet
-;;(defn shrinkingChineseLineVec [chineseLine lineLength]
-;; (map #(subs "看見那東西了嗎" 0 %)
-
-(defn shrinkingChinese [chineseLine]
-  (conj (reverse (map #(subs chineseLine 0 %) (drop 1 (range (count chineseLine))))) chineseLine)
-  )
-
-;;(println (shrinkingChinese "看見那東西了嗎"))
 
 ;(defn lineToFirstWord [chineseLine]
 ;  (first (filter #(not (nil? %)) (map #(cedictTradHash %) (shrinkingChinese chineseLine))))
@@ -49,7 +51,6 @@
       )
    )
   )
-
 ;(println (lineToFirstWord "看見那東西了嗎"))
 ;(println (lineToFirstWord "拜託 老兄 你就別丟人了"))
 ;(println (lineToFirstWord "哦 不 救命啊"))
@@ -169,7 +170,7 @@
 ;(println (tradKinStringToPinyinKinStringWith* "這景色真是太美了"))
 ;(println (tradKinStringToPinyinKinStringWith* "拜託,hr lykke老兄 你就別丟人了"))
 
-(defn tradKinStringToTradWordsInfoString
+(defn tradKinStringToTradWordsInfoStringLimmited
   [stringWithTradCharacters]
   (cond
     (= nil stringWithTradCharacters) ""
@@ -181,15 +182,26 @@
     (filter #(not (= nil %))
     (map #(cedictTradHash %)  (distinct (linetoWordAndAllChars stringWithTradCharacters))) ;wordAndChrVector  ;linetoWordAndAllChars
     ))))))
+;(println (tradKinStringToTradWordsInfoStringLimmited "了這景色真是太美了"))
+;(println (tradKinStringToTradWordsInfoStringLimmited "拜託,hr lykke老兄 你就別丟人了"))
+;(println (tradKinStringToTradWordsInfoStringLimmited ""))
+;(println (tradKinStringToTradWordsInfoStringLimmited nil))
 
-
-;udvid det til at inkludere info vedr de enkelte tegn
-
-;(println (tradKinStringToTradWordsInfoString "了這景色真是太美了"))
-;(println (tradKinStringToTradWordsInfoString "拜託,hr lykke老兄 你就別丟人了"))
-;(println (tradKinStringToTradWordsInfoString ""))
-;(println (tradKinStringToTradWordsInfoString nil))
-
+;lav en funktion der viser info om alle ord og alle tegn i ordene UANSET om tegnet/ordet er set foer
+(defn tradKinStringToTradWordsInfoStringFull
+  [stringWithTradCharacters]
+  (cond
+    (= nil stringWithTradCharacters) ""
+    (= "" stringWithTradCharacters) ""
+    :else
+    (let [wordAndChrVector (lineToWordVec stringWithTradCharacters)]
+      (clojure.string/join ""
+                           (map #(str % " \n")
+                                (filter #(not (= nil %))
+                                        (map #(cedictTradHash %)  (linetoWordAndAllChars stringWithTradCharacters)) ;wordAndChrVector  ;linetoWordAndAllChars
+                                        ))))))
+;(println (tradKinStringToTradWordsInfoStringFull "了這景色真是太美了"))
+;(println (tradKinStringToTradWordsInfoStringFull "拜託,hr lykke老兄 你就別丟人了"))
 
 ;; naeste opgave: lav en funktion der laeser avengers filen,
 

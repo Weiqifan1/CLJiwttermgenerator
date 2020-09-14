@@ -1,10 +1,12 @@
 (ns lwttermgenerator.core)
 ;;  (:gen-class))
 
-(load-file "src/lwttermgenerator/hjaelpemetoder.clj")
-(load-file "src/lwttermgenerator/cedictprep.clj")
+;(load-file "src/lwttermgenerator/hjaelpemetoder.clj")
+(load-file "src/Dictionaries/cedictprep.clj")
+(load-file "src/Dictionaries/preptzai.clj")
 (load-file "src/lwttermgenerator/tzaiprep.clj")
 (load-file "src/lwttermgenerator/moduleDistributeWordsAmongSentences.clj")
+(load-file "src/StoryAnalysing/readInfoFromFile.clj")
 
 (load-file "src/Helpermethods/hjaelpemetoder.clj")
 ;moduleDistributeWordsAmongSentences.clj
@@ -17,7 +19,6 @@
   [& args]
   (println "Hello, World!"))
 
-(println (helper_parse-int "34"))
 
 (println "hello chr")
 

@@ -4,6 +4,15 @@
   [x]
   (println x "Hello, World!"))
 
+;;lav en funktion der tager en kinesisk linje samt dens laengde
+;;og returnere en vector af linjen med flere og flere bogstaver fjernet
+;;(defn shrinkingChineseLineVec [chineseLine lineLength]
+;; (map #(subs "看見那東西了嗎" 0 %)
+(defn shrinkingChinese [chineseLine]
+  (conj (reverse (map #(subs chineseLine 0 %) (drop 1 (range (count chineseLine))))) chineseLine)
+  )
+;(println (shrinkingChinese "看見那東西了嗎"))
+
 (defn helper_parse-long
   "Reads a number from a string. Returns nil if not a number."
   [s]
