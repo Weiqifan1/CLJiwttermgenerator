@@ -7,7 +7,8 @@
      ;(fn [input] (map #(vector (first %) (read-string (second %))) input))
      ;(fn [input] (map #(clojure.string/split % (re-pattern regexSplitLinje)) input))
      ;#(map clojure.string/trim %)
-     #(clojure.string/split (slurp %) (re-pattern "\\s+"))
+     (fn [input] (filter #(not (= "" (clojure.string/trim %))) input))
+     #(clojure.string/split (slurp %) (re-pattern "\\r+"))
      )
    filstig
    )
@@ -15,8 +16,8 @@
 
 (def raw_story (clean_story_funk "src\\lwttermgenerator\\Avengers01_01_changedToTrad.txt"))
 
-(println (count raw_story))
-(println (take 20 raw_story))
+;(println (count raw_story))
+;(println (take 20 raw_story))
 
 
 

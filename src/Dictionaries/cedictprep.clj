@@ -35,14 +35,14 @@
 
 
 ;(defn lineToFirstWord [chineseLine]
-;  (first (filter #(not (nil? %)) (map #(cedictTradHash %) (shrinkingChinese chineseLine))))
+;  (first (filter #(not (nil? %)) (map #(cedictTradHash %) (helper_shrinkingChinese chineseLine))))
 ;  )
 
 ;;lav en funktion der tager en linesisk linje samt cedictTradHash
 ;;og returnere en vector med foerste ord og resten af saetningen
 ;;(defn lineToFirstWordAndRest [chineseLine] ())
 (defn lineToFirstWord [chineseLine]
-  (let [naiveAttempt (first (filter #(not (nil? %)) (map #(cedictTradHash %) (shrinkingChinese chineseLine))))]
+  (let [naiveAttempt (first (filter #(not (nil? %)) (map #(cedictTradHash %) (helper_shrinkingChinese chineseLine))))]
     (cond
       (= 0 (count chineseLine)) []
       (nil? naiveAttempt) (vector (first chineseLine))
