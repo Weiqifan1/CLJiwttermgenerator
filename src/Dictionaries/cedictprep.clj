@@ -112,11 +112,32 @@
      )
    )
   )
-
 ;(println (lineToWordVec "看見那東西了嗎"))
 ;(println (lineToWordVec "拜託 老兄 你就別丟人了"))
 ;(println (lineToWordVec "哦 不 救命啊"))
 ;(println (lineToWordVec "是 先生 dfg "))
+
+(println "her starter cedictprep")
+
+(defn linetoUniqueWordsAndChars [kinString]
+  (filter #(helper_stringHasChinese %)
+  (distinct
+    (let [lineToWordVec (lineToWordVec kinString)]
+    (flatten
+      (map
+        (fn [wordOrChar] (if
+                           (< 1 (count (str "" wordOrChar)))
+                           (conj (vector wordOrChar) (clojure.string/split wordOrChar #""))
+                           wordOrChar))
+        lineToWordVec
+        ))
+    )))
+  )
+;(println (linetoUniqueWordsAndChars "了看見那東西了嗎")) ;the last 了 is not included
+
+
+(println "--------- cedictprep slut --------------")
+
 
 (defn linetoWordAndAllChars [kinString]
   (let [lineToWordVec (lineToWordVec kinString)]
