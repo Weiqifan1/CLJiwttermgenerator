@@ -111,7 +111,11 @@
 (println (contentVecGnerator miniStory)) ;virker
 
 ;dette kunne jeg nok godt proeve at lave om til en csv film
-;foerst skal jeg fjerne dubletter.
+;foerst skal jeg udvidde cedict_raw, saadan at den inkludere tzai tal (bare tilfoej den til enden af listen)
+;derefter skal jeg tjekke at resten af koden der bruger cedict_raw stadig virker
+;derefter skal jeg sortere contentVecGenerator, saa linjer med de sjaeldneste tegn kommer til sidst
+;tilsidst skal jeg fjerne dubletter fra contentVecGenerator
+
 
 ;;;;;; - 2020-09-18 kl. 6.36
 ;;;;;;;lav en funktion der iterere gennem alle components, og accumulere tegn, og fjerne tegn i de efterf'lgende
