@@ -64,8 +64,11 @@
           :line (get % :line)
           :lineID (get % :lineID)
           :components (linetoUniqueWordsAndChars (get % :line));(map createCharInfoHashMap  (linetoUniqueWordsAndChars (get % :line))); ;outCommented Vector
+          :componentsToBeRemovedIfDublet (linetoUniqueWordsAndChars (get % :line))
           :lineInfo (tradKinStringToTradWordsInfoStringFull (get % :line))
           :linePinYin (tradKinStringToPinyinKinStringWith* (get % :line))
+          :lineCharsAndTzaiNumbers (stringToCharsAndTzaiNumber (get % :line))
+          :lineSortedTzaiNumbers (vec (reverse (stringToTzaiNumbersSortedNoNil (get % :line))))
           )
   (filter
     (fn [inputLine]
@@ -88,16 +91,11 @@
     )
   ))
 
-;;;;;;;; lav en funktion der tager en saetning og returnere en hashmap med foelgende:
-;saetning
-;ord og tegn
-;(defn senToSenWordsAndChars [inputSentence]
-;  (map
-;    (fn [input])
-;    inputSentence)
-;  )
-;(println (linetoUniqueWordsAndChars "了看見那東西了嗎"))
-
+;lav en funktion der sortere contentVec-bata-2 saadan at linjerne med sjaeldne tegn kommer sidst
+(defn sortedStoryLinesWithInfo [inputStory]
+  (sort-by :lineSortedTzaiNumbers compareListsOfTzai (vec (contentVec-bata-2 inputStory)))
+  )
+;(println miniStory)
 
 ;(def miniStory_2 (take 7 raw_story))
 ;(println (contentVecGnerator miniStory_2))
@@ -107,15 +105,16 @@
 ;(println raw_story)
 ;(println (contentVec-bata-2 miniStory))
 
-(println (type (contentVecGnerator miniStory)))
-(println (contentVecGnerator miniStory)) ;virker
+;(println (type (contentVecGnerator miniStory)))
+;(println (contentVecGnerator miniStory)) ;virker
+
+(println (sortedStoryLinesWithInfo miniStory))
 
 ;dette kunne jeg nok godt proeve at lave om til en csv film
-;foerst skal jeg udvidde cedict_raw, saadan at den inkludere tzai tal (bare tilfoej den til enden af listen)
-;derefter skal jeg tjekke at resten af koden der bruger cedict_raw stadig virker
-;derefter skal jeg sortere contentVecGenerator, saa linjer med de sjaeldneste tegn kommer til sidst
-;tilsidst skal jeg fjerne dubletter fra contentVecGenerator
-
+;jeg har sorteret linjerne saa hasmapperne med de sjaeldneste tegn kommer sidst.
+;nu skal jeg fjerne dubletter fra contentVecGenerator
+;Det jeg skal goere er at iterere over hasmapperne og accumulere tegn fra :componentsToBeRemovedIfDublet
+;hvis et tegn findes i den accumulerede liste, skal de fjernes fra components listen
 
 ;;;;;; - 2020-09-18 kl. 6.36
 ;;;;;;;lav en funktion der iterere gennem alle components, og accumulere tegn, og fjerne tegn i de efterf'lgende

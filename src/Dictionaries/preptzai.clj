@@ -37,6 +37,20 @@
 ;(println (get tzai_hashmap_numToChar 2))
 ;(println (get tzai_hashmap_numToChar 3))
 
+;lav en funktion der tager en string og laver det om til en liste af tegn og tzai tal
+(defn stringToCharsAndTzaiNumber [inputString]
+   (map #(str "" % (tzai_hashmap %)) (helper_splitToCodepointChar inputString))
+  )
+;;"A腦𡳞𨨏B乃匯C𨭎"
+;(println (stringToCharsAndTzaiNumber "A腦\uD847\uDCDE\uD862\uDE0FB乃匯C\uD862\uDF4E"))
+;(println (count (stringToCharsAndTzaiNumber "A腦\uD847\uDCDE\uD862\uDE0FB乃匯C\uD862\uDF4E")))
+
+(defn stringToTzaiNumbersSortedNoNil [inputString]
+  (sort
+    (filter #(not (nil? %))
+      (map #(tzai_hashmap %) (helper_splitToCodepointChar inputString))))
+  )
+;(println (stringToTzaiNumbersSortedNoNil "A腦𡳞𨨏B乃匯C𨭎"))
 
 
 ;(println (count tzai_hashmap))

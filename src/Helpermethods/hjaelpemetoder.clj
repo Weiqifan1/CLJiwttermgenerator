@@ -118,6 +118,8 @@
 ;(println (helper_compareLength "abc" "abcd")) ;1
 
 ;***************************** sorting functions ***************************
+
+;sorting functions to dictionaries
 (defn compare-tzai-secondary [a b]
   (if (and (= (get a :tzai) nil) (not= (get b :tzai) nil))
     1
@@ -171,6 +173,56 @@
       )
     )
   )
+
+;lav en funktion der tager to tal og returnere det stoerste
+(defn lengthOfShortestList [list1 list2]
+  (if
+    (> (count list1) (count list2))
+    (count list2)
+    (count list1)
+    )
+  )
+;(println (lengthOfShortestList (vector 1 2 3) (vector 4 7 3 2 1)))
+
+;(defn compareListsOfTzai [listA listB]
+;  (if
+;    (and (not (= nil %)) (< 0 (count %)))
+;    (first %)
+;    0
+;    (filter
+;      #(not (= 0 %))
+;      (map #(compare (nth listA %) (nth listB %))
+;           (range (lengthOfShortestList listA listB)))))
+;  )
+
+;sorting vectors of tzai numebers for use by contentVecGnerator
+(defn compareListsOfTzai [listA listB]
+  ((comp
+    (fn [comparisonsNotNull] (if
+                                (and (not (= nil comparisonsNotNull)) (< 0 (count comparisonsNotNull)))
+                                (first comparisonsNotNull)
+                                0))
+
+     (fn [listOfComparisons] (filter #(not (= 0 %)) listOfComparisons))
+     (fn [rangeOfIndexes] (map #(compare (nth listA %) (nth listB %)) rangeOfIndexes))
+    )(range (lengthOfShortestList listA listB)))
+  )
+;(println (compareListsOfTzai [978 219 219 143 21 19] [878 348 219 156 95 17 10 2]))
+
+
+;[235 219 143 21 19]
+;[878 348 219 156 95 17 10 2]
+;[1392 418 298 102 89 30 26 19 3]
+;[1343 1105 776 399 199 190 26 19 10 9]
+
+;(defn shortestListIndexes [list1 list2]
+;  ([let shortesLength (lengthOfShortestList list1 list2)]
+;   (range 0 shortesLength)
+;   )
+;  )
+;(println (lengthOfShortestList (vector 1 2 3) (vector 4 7 3 2 1)))
+
+
 
 (defn helper_rundOpTilNul
   [Heltal]
