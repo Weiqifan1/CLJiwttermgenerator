@@ -235,4 +235,16 @@
 ;(println (helper_rundOpTilNul 0))
 ;(println (helper_rundOpTilNul -1))
 
+(defn helper_CollItemOrEmptyVec
+  [listOfItems index]
+  (if
+    (> 0 index)
+    []
+    (nth listOfItems index))
+  )
+;(println (helper_CollItemOrEmptyVec [10 11 12 13 14 15] 3))
+;(println (helper_CollItemOrEmptyVec [10 11 12 13 14 15] -1))
+
+
+
 ;slut

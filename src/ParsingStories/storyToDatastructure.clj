@@ -79,8 +79,46 @@
       )
     (contentVec-bata-1 inputStory))))
 
+;lav en funktion der sortere contentVec-bata-2 saadan at linjerne med sjaeldne tegn kommer sidst
+(defn sortedStoryLinesWithInfo [inputStory]
+  (sort-by :lineSortedTzaiNumbers compareListsOfTzai (vec (contentVec-bata-2 inputStory)))
+  )
+
+;lav en funktion der tager de sorterede hashmaps og cummulativt fjerne tegn fra :componentsToBeRemovedIfDublet
+(defn accumulatedComponentsNestedList [inputStory]
+  (let [sortedStoryLines (sortedStoryLinesWithInfo inputStory)
+        nestedWordAndCharList (map #(get % :componentsToBeRemovedIfDublet) sortedStoryLines)
+        nestedAccumWordAndChar (map
+                                 (fn [eachRange]
+                                   (flatten (map #(nth nestedWordAndCharList %) eachRange)))
+                                 (map #(range (+ % 1))
+                                      (range 0 (count nestedWordAndCharList))))]
+    (map
+      (fn [eachIndex]
+        (let [accumulatedWordsAndCharacters (vec (helper_CollItemOrEmptyVec nestedAccumWordAndChar (- eachIndex 1)))
+              wordsAndCharsEachLine (vec (nth nestedWordAndCharList eachIndex))]
+          ;(identity accumulatedWordsAndCharacters) ;([] [你好 你 好 啊 美女 美 女] [你好 你 好 啊 美女 美 女 這 景色 景 色 真是 真 是 太 美 了] [你好 你 好 啊 美女 美 女 這 景色 景 色 真是 真 是 太 美 了 拜託 拜 託 老兄 老 兄 你 就 別 丟人 丟 人 了])
+          ;(identity wordsAndCharsEachLine) ;([你好 你 好 啊 美女 美 女] [這 景色 景 色 真是 真 是 太 美 了] [拜託 拜 託 老兄 老 兄 你 就 別 丟人 丟 人 了] [你 就 不能 不 能 放鬆 放 鬆 點兒 點 兒 嗎])
+          (filter
+            (fn [eachWordOrChar]
+              (not
+                (contains? (set accumulatedWordsAndCharacters) eachWordOrChar))
+              )
+            wordsAndCharsEachLine)
+          ))
+      (range (count nestedWordAndCharList)))))
+;(println (accumulatedComponentsNestedList miniStory))
+;((你好 你 好 啊 美女 美 女) (這 景色 景 色 真是 真 是 太 了) (拜託 拜 託 老兄 老 兄 就 別 丟人 丟 人) (不能 不 能 放鬆 放 鬆 點兒 點 兒 嗎))
+;characters removed (() (美) (你 了) (你 就))
+
+(defn sortedStoryLinesWithInfoWithRemovedComponentDublicates [inputStory]
+  (let [storyLineHashmap (sortedStoryLinesWithInfo inputStory)
+        lineWordsAndCharsDublicatesRemoved (accumulatedComponentsNestedList inputStory)]
+    (map-indexed (fn [idx itm] (merge itm (hash-map :componentsToBeRemovedIfDublet (nth lineWordsAndCharsDublicatesRemoved idx)))) storyLineHashmap)))
+;(println (sortedStoryLinesWithInfoWithRemovedComponentDublicates miniStory))
+
 (defn contentVecGnerator [inputStory]
-  (let [eachLineWithID (contentVec-bata-2 inputStory)]
+  (let [eachLineWithID (sortedStoryLinesWithInfoWithRemovedComponentDublicates inputStory)]
     (vector
       (nth inputStory 0)
       (nth inputStory 1)
@@ -88,17 +126,21 @@
       eachLineWithID
       ;(get :line eachLineWithID)
       ;(get eachLineWithID :components)
-    )
-  ))
+      )
+    ))
 
-;lav en funktion der sortere contentVec-bata-2 saadan at linjerne med sjaeldne tegn kommer sidst
-(defn sortedStoryLinesWithInfo [inputStory]
-  (sort-by :lineSortedTzaiNumbers compareListsOfTzai (vec (contentVec-bata-2 inputStory)))
-  )
 ;(println miniStory)
-
 ;(def miniStory_2 (take 7 raw_story))
-;(println (contentVecGnerator miniStory_2))
+
+
+;denne ser fornuftig ud.
+;2020-09-20 kl.21.04
+;jeg tror godt jeg kan bruge dette til at lave en csv fil
+;opgave: jeg skal lave en csv fil
+;(println (contentVecGnerator miniStory)) ;raw_story
+
+(println (contentVecGnerator miniStory))
+
 ;(println (contentVecGnerator raw_story))
 (println "********************************")
 ;(println miniStory_2)
@@ -108,16 +150,8 @@
 ;(println (type (contentVecGnerator miniStory)))
 ;(println (contentVecGnerator miniStory)) ;virker
 
-(println (sortedStoryLinesWithInfo miniStory))
 
-;dette kunne jeg nok godt proeve at lave om til en csv film
-;jeg har sorteret linjerne saa hasmapperne med de sjaeldneste tegn kommer sidst.
-;nu skal jeg fjerne dubletter fra contentVecGenerator
-;Det jeg skal goere er at iterere over hasmapperne og accumulere tegn fra :componentsToBeRemovedIfDublet
-;hvis et tegn findes i den accumulerede liste, skal de fjernes fra components listen
 
-;;;;;; - 2020-09-18 kl. 6.36
-;;;;;;;lav en funktion der iterere gennem alle components, og accumulere tegn, og fjerne tegn i de efterf'lgende
-;;;; linjer hvis de forekommer 2. gang.
+;(println (sortedStoryLinesWithInfo miniStory))
 
 ;slut
