@@ -19,7 +19,7 @@
   [& args]
   (println "Hello, World!"))
 
-
+(writeExample)
 
 ;;(println (take 3 cedict_raw))
 ;;(println (count cedict_raw))
