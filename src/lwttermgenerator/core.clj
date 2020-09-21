@@ -8,10 +8,11 @@
 
 (load-file "src/Helpermethods/hjaelpemetoder.clj")
 (load-file "src/ParsingStories/storyToDatastructure.clj")
+(load-file "src/DatastructuresToFiles/dataToFileFirstTry.clj")
 ;moduleDistributeWordsAmongSentences.clj
 
-;; 2020-09-11 jeg maa proeve at udskille min kode i biblioteker saa det bliver nemmere at overskue.
-;; jeg maa ogsaa proeve at lave en form for dokumentation.
+;; 2020-09-21
+;jeg vil forsoege at skrive data til en fil
 
 (defn -main
   "I don't do a whole lot ... yet."
