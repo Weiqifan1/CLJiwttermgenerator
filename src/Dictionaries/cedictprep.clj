@@ -117,7 +117,7 @@
 ;(println (lineToWordVec "哦 不 救命啊"))
 ;(println (lineToWordVec "是 先生 dfg "))
 
-(println "her starter cedictprep")
+;(println "her starter cedictprep")
 
 (defn linetoUniqueWordsAndChars [kinString]
   (filter #(helper_stringHasChinese %)
@@ -136,7 +136,7 @@
 ;(println (linetoUniqueWordsAndChars "了看見那東西了嗎")) ;the last 了 is not included
 
 
-(println "--------- cedictprep slut --------------")
+;(println "--------- cedictprep slut --------------")
 
 
 (defn linetoWordAndAllChars [kinString]

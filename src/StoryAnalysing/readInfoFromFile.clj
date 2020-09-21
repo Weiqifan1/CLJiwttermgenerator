@@ -1,6 +1,6 @@
 (load-file "src/Helpermethods/hjaelpemetoder.clj")
 
-(println "hello readInfo")
+;(println "hello readInfo")
 
 (defn clean_story_funk [filstig]
   ((comp
