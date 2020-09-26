@@ -4,6 +4,13 @@
   [x]
   (println x "Hello, World!"))
 
+;(. java.lang.Character toCodePoint (first %) (second %))
+
+;;remove newline from end of string
+(defn removeNewlineFromEnd [inputString]
+  (clojure.string/replace inputString #"\s+$" ""))
+;(println (count (removeNewlineFromEnd "a bc \n")))
+
 ;;lav en funktion der tager en kinesisk linje samt dens laengde
 ;;og returnere en vector af linjen med flere og flere bogstaver fjernet
 ;;(defn shrinkingChineseLineVec [chineseLine lineLength]
