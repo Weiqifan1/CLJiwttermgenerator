@@ -18,8 +18,7 @@
   "I don't do a whole lot ... yet."
   [& args]
   (println "Hello, World!"))
-
-(writeExample)
+;(writeExample)
 
 ;;(println (take 3 cedict_raw))
 ;;(println (count cedict_raw))

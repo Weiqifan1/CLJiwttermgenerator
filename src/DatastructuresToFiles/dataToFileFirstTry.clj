@@ -32,6 +32,16 @@
   (with-open [w (clojure.java.io/writer "resources/ankiResultFiles/Example.txt" :append false)]
     (.write w (str "hello" "world" "there"))))
 
+; createOrCleanseAFile
+(defn createOrCleanseFile [filePathString]
+  (with-open [w (clojure.java.io/writer filePathString :append false)]
+    (.write w "")))
+
+; write input to a file
+(defn writeInputToFile [inputString filePathString]
+  (with-open [w (clojure.java.io/writer filePathString :append true)]
+    (.write w inputString)))
+
 (def raw_story (clean_story_funk "src\\lwttermgenerator\\Avengers01_01_changedToTrad.txt"))
 (def miniStory (take 11 raw_story))
 ;(println miniStory)
@@ -43,20 +53,33 @@
 ;(println (count dataStrudtuceToWriteToFile))
 ;(println dataStrudtuceToWriteToFile) ;virker
 
+;write a function that can write dataStructure lines to a file
+;2020-09-26 funktionen virker ikke. Der bliver ikke skrevet til en fil
 (defn createStringToBeWrittenTofileFromContentVecGenerator
-  [inputDataStructure]
+  [inputDataStructure filePath]
   (let [hashmapWithLineInfo (nth inputDataStructure 3)]
-    (identity hashmapWithLineInfo)))
+    (map
+      (fn [eachHashMap]
+        (let [ordinaryLineToString (contentVecLineToString_LineFirst eachHashMap)
+              pinyinToString (contentVecLineToString_PinyinFirst eachHashMap)
+              ]
+          (writeInputToFile ordinaryLineToString filePath
+           ;(writeInputToFile ordinaryLineToString filePath)
+           ;(writeInputToFile pinyinToString filePath)
+            ))
+        )
+      hashmapWithLineInfo)))
+;(createStringToBeWrittenTofileFromContentVecGenerator miniStory "resources/ankiResultFiles/Example2.txt")
 
-(def foersteGodeLinje (nth (createStringToBeWrittenTofileFromContentVecGenerator dataStructureToWriteToFile) 1))
+;(println (count (createStringToBeWrittenTofileFromContentVecGenerator dataStructureToWriteToFile)))
 ;(println foersteGodeLinje)
-
-
-
-
-
 ;(println (contentVecLineToString_LineFirst foersteGodeLinje))
-
 ;(println (createStringToBeWrittenTofileFromContentVecGenerator dataStructureToWriteToFile))
+
+;;;skriv en ny funktion der kan skrive til en fil
+
+
+
+
 
 ;slut
