@@ -12,6 +12,8 @@
                    (clojure.string/trim (get dataStructureLine :line)) "\n"
                    (clojure.string/trim (get dataStructureLine :linePinYin)) "\n"
                    (clojure.string/trim (clojure.string/join "" (get dataStructureLine :lineCharsAndTzaiNumbers))) "\n"
+                   "newCharsAndWords: "
+                   (clojure.string/trim (clojure.string/join " " (get dataStructureLine :componentsToBeRemovedIfDublet))) "\n"
                    (clojure.string/trim storyFirstLine) "\n"
                    (clojure.string/trim storySecondLine) "\n"
                    (clojure.string/trim (get dataStructureLine :lineID)) "\n"
@@ -32,6 +34,8 @@
                    (clojure.string/trim (get dataStructureLine :line)) "\n"
                    (clojure.string/trim (get dataStructureLine :linePinYin)) "\n"
                    (clojure.string/trim (clojure.string/join "" (get dataStructureLine :lineCharsAndTzaiNumbers))) "\n"
+                   "newCharsAndWords: "
+                   (clojure.string/trim (clojure.string/join " " (get dataStructureLine :componentsToBeRemovedIfDublet))) "\n"
                    (clojure.string/trim storyFirstLine) "\n"
                    (clojure.string/trim storySecondLine) "\n"
                    (clojure.string/trim (get dataStructureLine :lineID)) "\n"
@@ -48,11 +52,11 @@
 (def miniStory (take 11 raw_story))
 ;(println miniStory)
 ;(println (take 6 raw_story))
-;;(println (contentVecGnerator miniStory))
-;;;(println (contentVecGnerator raw_story))
 (def dataStructureToWriteToFile (contentVecGnerator miniStory))
+(def bigDataStrunctureTowriteTofile (contentVecGnerator raw_story))
 ;last dataStructureToWriteToFile))
-;(println dataStrudtuceToWriteToFile) ;virker
+;(println dataStructureToWriteToFile)
+;(println (count (last bigDataStrunctureTowriteTofile))) ;virker
 
 ;; This program displays Hello World
 (defn writeExample []
@@ -122,7 +126,7 @@
 ;(println miniStoryExampleLine)
 
 (def testLine (contentVecLineToStringVector_LineFirst miniStoryExampleLine (nth miniStory 0) (nth miniStory 1)))
-;(println (last testLine))
+;(println testLine)
 
 ;write a function that takes a story line hashmap and returns a string array (first line, secondline, tags)
 (defn storyLineHashMapNestedStringArray [arrayOfStoryLineMaps storyLine1 storyLine2]
@@ -154,34 +158,37 @@
 (defn ankiRowStringArrayToFile [ankiRowStringArray filepath]
   (writeArrayToFile ankiRowStringArray filepath)
   )
-(ankiRowStringArrayToFile  (ankiCellNestedArrayToAnkiLineArray nestedArray) "resources/ankiResultFiles/Example.txt")
+;(ankiRowStringArrayToFile  (ankiCellNestedArrayToAnkiLineArray nestedArray) "resources/ankiResultFiles/Example.txt")
 ;;ovenstaande virker, men er lidt kompliceret. Jeg skal pr've at stoppe processen over i en funktin
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;(def raw_story (clean_story_funk "src\\lwttermgenerator\\Avengers01_01_changedToTrad.txt"))
+;(println (contentVecGnerator miniStory))
+;(println (contentVecGnerator raw_story))
+
+;2020-09-27
+;write a function that takes a storyFilePath and a targetAnkiFilePath,
+;and creates the file to be passed to Anki
 (defn storyfilePathToAnkiFile [storyFilePath targetAnkiFilepath] ;"src\\lwttermgenerator\\Avengers01_01_changedToTrad.txt"
   (let [
         fullStory (clean_story_funk storyFilePath)
-        dataStructureToWriteToFile (contentVecGnerator fullStory)
+        bigDataStructure (contentVecGnerator fullStory)
         nestedArray (storyLineHashMapNestedStringArray
-                      (nth dataStructureToWriteToFile 3)
-                      (nth dataStructureToWriteToFile 0)
-                      (nth dataStructureToWriteToFile 1)
+                      (nth bigDataStructure 3)
+                      (nth bigDataStructure 0)
+                      (nth bigDataStructure 1)
                       )
         ankiRowStringArray (ankiCellNestedArrayToAnkiLineArray nestedArray)
         ]
-    ;(println (take 10 fullStory))
+    ;(println (take 1 (last bigDataStructure)))
     ;(println (first (nth dataStructureToWriteToFile 3)))
-    ;(writeArrayToFile ankiRowStringArray targetAnkiFilepath)
+    (writeArrayToFile ankiRowStringArray targetAnkiFilepath)
   ))
-;(storyfilePathToAnkiFile
-;  "src\\lwttermgenerator\\Avengers01_01_changedToTrad.txt"
-;  "resources/ankiResultFiles/Example.txt"
-;  )
+(storyfilePathToAnkiFile
+  "src\\lwttermgenerator\\Avengers01_01_changedToTrad.txt"
+  "resources/ankiResultFiles/Example.txt"
+  )
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;write a function that takes a story line hashmap and returns a string array (first line, secondline, tags)
-;(defn storyLineHashMapNestedStringArray [arrayOfStoryLineMaps storyLine1 storyLine2]
 
 ;slut

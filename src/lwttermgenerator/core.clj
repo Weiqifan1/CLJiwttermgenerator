@@ -11,8 +11,15 @@
 (load-file "src/DatastructuresToFiles/dataToFileFirstTry.clj")
 ;moduleDistributeWordsAmongSentences.clj
 
-;; 2020-09-21
-;jeg vil forsoege at skrive data til en fil
+;; 2020-09-27
+;jeg kan nu fint skrive en fil der kan generere tegn og pinyin Anki kort.
+;dog laver jeg mange dubletter ifoelge anki. Jeg skal lave en funktion
+;tager full story og fjerne linjer der har vaeret der tidligere,
+;men tilfoejer de slettede linjers minut tal til den foerste linjes minut tal linje
+
+;herefter skal jeg kunne redigere skriftstoerelse paa mine kort (kan maaske goeres i anki)
+
+;herefter skal jeg finde ud af at tilfoeje lydfiler til mine kort
 
 (defn -main
   "I don't do a whole lot ... yet."
