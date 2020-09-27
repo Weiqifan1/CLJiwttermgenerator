@@ -4,12 +4,30 @@
   [x]
   (println x "Hello, World!"))
 
+;stackoverflow:
+;https://stackoverflow.com/questions/10723451/whats-the-one-level-sequence-flattening-function-in-clojure
+(defn flatten-one-level [coll]
+  (mapcat  #(if (sequential? %) % [%]) coll))
+
+
 ;(. java.lang.Character toCodePoint (first %) (second %))
 
 ;;remove newline from end of string
 (defn removeNewlineFromEnd [inputString]
   (clojure.string/replace inputString #"\s+$" ""))
 ;(println (count (removeNewlineFromEnd "a bc \n")))
+
+;remove komma, semikolon, tab and double quote
+(defn removeAnkiSpecialChars [inputString]
+  (clojure.string/replace inputString #"[,;\t\"]" "")
+  )
+;(println (removeAnkiSpecialChars "ksjd\tkf;s,s\"f"))
+
+(defn removeAnkiSpecialCharsAndTrailingNewLine [inputString]
+  (removeNewlineFromEnd
+    (removeAnkiSpecialChars inputString)
+    ))
+;(println (count (removeAnkiSpecialCharsAndTrailingNewLine "ks\njd\tkf;s,s\"f\n"))) ;should be 10
 
 ;;lav en funktion der tager en kinesisk linje samt dens laengde
 ;;og returnere en vector af linjen med flere og flere bogstaver fjernet
