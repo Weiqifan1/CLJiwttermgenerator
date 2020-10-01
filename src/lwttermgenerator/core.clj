@@ -11,9 +11,15 @@
 (load-file "src/DatastructuresToFiles/dataToFileFirstTry.clj")
 ;moduleDistributeWordsAmongSentences.clj
 
-;; 2020-09-27
+;; 2020-10-01
 ;jeg kan nu fint skrive en fil der kan generere tegn og pinyin Anki kort.
-;dog laver jeg mange dubletter ifoelge anki. Jeg skal lave en funktion
+;dog laver jeg mange dubletter ifoelge anki.
+
+;jeg skal redigere i dataen fra historien naar den kommer ind.
+;naar jeg laver vectoren med storylinje hashmaps, skal jeg lave hashmap keys med de oeverste linjer story-filen
+;derved faar jeg en datastruktur der kun er en vector af hashmaps. det er bedre.
+
+; Jeg skal lave en funktion
 ;tager full story og fjerne linjer der har vaeret der tidligere,
 ;men tilfoejer de slettede linjers minut tal til den foerste linjes minut tal linje
 
