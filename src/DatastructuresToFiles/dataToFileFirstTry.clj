@@ -177,15 +177,25 @@
                       (nth bigDataStructure 0)
                       (nth bigDataStructure 1)
                       )
+        firstLine (map #(first %) nestedArray)
+        sortFirstLine (sort firstLine)
+        with-indexes (map #(vector %1 %2 ) sortFirstLine (range))
+        filterDoublicates (filter
+                            (fn [stringIndexPair]
+                              (= (first stringIndexPair)
+                                 (first (nth with-indexes (helper_rundOpTilNul (- (second stringIndexPair) 1))))
+                                 )
+                              )
+                            with-indexes)
+        ;note: der er dubletter i koden. jeg ved ikke hvordan de er kommet der: (println filterDoublicates)
+
         ankiRowStringArray (ankiCellNestedArrayToAnkiLineArray nestedArray)
         ]
-    ;(println (take 1 (last bigDataStructure)))
-    ;(println (first (nth dataStructureToWriteToFile 3)))
     (writeArrayToFile ankiRowStringArray targetAnkiFilepath)
   ))
 (storyfilePathToAnkiFile
   "src\\lwttermgenerator\\Avengers01_01_changedToTrad.txt"
-  "resources/ankiResultFiles/Example.txt"
+  "resources/ankiResultFiles/Example3.txt"
   )
 
 
