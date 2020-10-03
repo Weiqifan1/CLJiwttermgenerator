@@ -191,7 +191,8 @@
 
         ankiRowStringArray (ankiCellNestedArrayToAnkiLineArray nestedArray)
         ]
-    (writeArrayToFile ankiRowStringArray targetAnkiFilepath)
+    ;(writeArrayToFile ankiRowStringArray targetAnkiFilepath)
+    (println "old fileToAnki")
   ))
 (storyfilePathToAnkiFile
   "src\\lwttermgenerator\\Avengers01_01_changedToTrad.txt"
