@@ -12,6 +12,8 @@
 (load-file "src/DatastructuresToFiles/dataToFileSecondTry.clj")
 ;moduleDistributeWordsAmongSentences.clj
 
+;2020-10-03 jeg er igang med dataToFileSecondTry
+
 ;; 2020-10-01
 ;jeg kan nu fint skrive en fil der kan generere tegn og pinyin Anki kort.
 ;dog laver jeg mange dubletter ifoelge anki.
