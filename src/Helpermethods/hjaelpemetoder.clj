@@ -220,7 +220,7 @@
 ;           (range (lengthOfShortestList listA listB)))))
 ;  )
 
-;sorting vectors of tzai numebers for use by contentVecGnerator
+;sorting vectors of tzai numbers for use by contentVecGenerator
 (defn compareListsOfTzai [listA listB]
   ((comp
     (fn [comparisonsNotNull] (if
@@ -234,6 +234,36 @@
   )
 ;(println (compareListsOfTzai [978 219 219 143 21 19] [878 348 219 156 95 17 10 2]))
 
+(defn compareListsOfTzai_2 [listA listB]
+  ;if listA is greater = -1, if event = 0, if listeB is greater = 1
+  (let [shortestRange (range (lengthOfShortestList listA listB))
+        longestList (cond
+                      (> (count listA) (count listB)) 1
+                      (= (count listA) (count listB)) 0
+                      (< (count listA) (count listB)) -1)
+        greatestIndex (map
+                        (fn [index]
+                          (let [listAindexValue (nth listA index)
+                                listBindexValue (nth listB index)]
+                            (cond
+                              (> listAindexValue listBindexValue) 1
+                              (= listAindexValue listBindexValue) 0
+                              (< listAindexValue listBindexValue) -1
+                              )
+                            )
+                          ) shortestRange)
+        withoutZeros (filter #(not (= 0 %)) greatestIndex)
+        ]
+    ;withoutZeros
+    (if
+      (< 0 (count withoutZeros))
+      (first withoutZeros)
+      longestList
+      )
+    )
+  )
+;(println (compareListsOfTzai_2 [978 219 219 143 21 19] [878 348 219 156 95 17 10 2]))
+;(println (compareListsOfTzai_2 [] [878 348 219 156 95 17 10 2]))
 
 ;[235 219 143 21 19]
 ;[878 348 219 156 95 17 10 2]

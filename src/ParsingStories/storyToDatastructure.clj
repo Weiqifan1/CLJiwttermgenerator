@@ -34,6 +34,9 @@
 
 (defn contentVec-bata-2 [inputStory]
   (map #(hash-map
+          :storyFirstLine (nth inputStory 0)
+          :storySecondLine (nth inputStory 1)
+          :storyThirdLine (nth inputStory 2)
           :line (get % :line)
           :lineID (get % :lineID)
           :components (linetoUniqueWordsAndChars (get % :line));(map createCharInfoHashMap  (linetoUniqueWordsAndChars (get % :line))); ;outCommented Vector
@@ -50,7 +53,7 @@
         (helper_stringHasChinese (get inputLine :line))
         )
       )
-    (contentVec-bata-1 inputStory))))
+     inputStory)))
 
 ;lav en funktion der sortere contentVec-bata-2 saadan at linjerne med sjaeldne tegn kommer sidst
 (defn sortedStoryLinesWithInfo [inputStory]
@@ -88,6 +91,7 @@
   (let [storyLineHashmap (sortedStoryLinesWithInfo inputStory)
         lineWordsAndCharsDublicatesRemoved (accumulatedComponentsNestedList inputStory)]
     (map-indexed (fn [idx itm] (merge itm (hash-map :componentsToBeRemovedIfDublet (nth lineWordsAndCharsDublicatesRemoved idx)))) storyLineHashmap)))
+
 ;(println (sortedStoryLinesWithInfoWithRemovedComponentDublicates miniStory))
 
 (defn contentVecGnerator [inputStory]

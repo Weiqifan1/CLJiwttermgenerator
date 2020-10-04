@@ -8,7 +8,7 @@
 
 (load-file "src/Helpermethods/hjaelpemetoder.clj")
 (load-file "src/ParsingStories/storyToDatastructure.clj")
-(load-file "src/DatastructuresToFiles/dataToFileFirstTry.clj")
+;(load-file "src/DatastructuresToFiles/dataToFileFirstTry.clj")
 (load-file "src/DatastructuresToFiles/dataToFileSecondTry.clj")
 ;moduleDistributeWordsAmongSentences.clj
 

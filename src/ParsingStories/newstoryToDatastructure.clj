@@ -32,8 +32,8 @@
            )
          inputStory))))
 
-(defn sortedStoryLinesWithInfo [inputStory]
-  (sort-by :lineSortedTzaiNumbers compareListsOfTzai inputStory)
+(defn sortByTzaiNumbers [inputStory]
+  (sort-by :lineSortedTzaiNumbers compareListsOfTzai_2 inputStory)
   )
 
 
