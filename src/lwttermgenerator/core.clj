@@ -12,6 +12,9 @@
 (load-file "src/DatastructuresToFiles/dataToFileSecondTry.clj")
 ;moduleDistributeWordsAmongSentences.clj
 
+;2020-10-18 
+;jeg proever igen
+
 ;2020-10-03 jeg er igang med dataToFileSecondTry
 
 ;; 2020-10-01
